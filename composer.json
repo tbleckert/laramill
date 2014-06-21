@@ -1,0 +1,23 @@
+{
+    "name": "tbleckert/billing",
+    "description": "",
+    "authors": [
+        {
+            "name": "Tobias Bleckert",
+            "email": "me@tb-one.se"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Tbleckert\\Billing\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

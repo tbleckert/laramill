@@ -22,6 +22,10 @@ trait BillingTrait {
 			->setEmail($this->email)
 			->setDescription($description);
 			
+		if ($this->client_id) {
+			$client->setId($this->client_id);
+		}
+			
 		return new PaymillGateway($this, $client);
 	}
 

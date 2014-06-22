@@ -13,6 +13,15 @@ trait BillingTrait {
 		}
 	}
 	
+	public function nullId()
+	{
+		switch ($this->currentAction) {
+			case 'client':
+				$this->update(array('client_id' => null));
+				break;
+		}
+	}
+	
 	public function client($description = null)
 	{
 		$this->currentAction = 'client';

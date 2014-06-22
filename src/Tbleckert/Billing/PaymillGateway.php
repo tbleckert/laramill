@@ -58,4 +58,16 @@ class PaymillGateway {
 		}
 	}
 	
+	public function remove()
+	{
+		try {
+			$response = $this->request->delete($this->paymillObject);
+			$this->billing->nullId();
+			
+			return $response;
+		} catch (PaymillException $e) {
+			throw $e;
+		}
+	}
+	
 }

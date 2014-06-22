@@ -2,6 +2,8 @@
 
 interface BillingInterface {
 	
+	public function saveId($id);
+	
 	public function client();
 
 }

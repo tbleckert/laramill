@@ -18,6 +18,10 @@ class PaymillGateway {
 		try {
 			$response   = $request->create($this->paymillObject);
 			$responseId = $response->getId();
+			
+			$this->billing->saveId($responseId);
+			
+			return $this;
 		} catch (PaymillException $e) {
 			throw $e;
 		}

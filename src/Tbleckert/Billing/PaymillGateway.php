@@ -37,4 +37,25 @@ class PaymillGateway {
 		}
 	}
 	
+	public function update($email = null, $description = null)
+	{
+		if (!$email) {
+			$email = $this->billing->email;
+		}
+		
+		try {
+			$this->paymillObject->setEmail($email);
+			
+			if ($description) {
+				$this->paymillObject->setDescription($description);
+			}
+			
+			$response = $this->request->update($this->paymillObject);
+			
+			return $this;
+		} catch (PaymillException $e) {
+			throw $e;
+		}
+	}
+	
 }

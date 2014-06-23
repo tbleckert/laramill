@@ -14,60 +14,48 @@ class PaymillGateway {
 	
 	public function create($token = null)
 	{
-		try {
-			$response   = $this->request->create($this->paymillObject);
-			$responseId = $response->getId();
-			
-			$this->billing->saveId($responseId);
-			
-			return $this;
-		} catch (PaymillException $e) {
-			throw $e;
-		}
+		$response   = $this->request->create($this->paymillObject);
+		$responseId = $response->getId();
+		
+		$this->billing->saveId($responseId);
+		
+		return $this;
 	}
 	
 	public function details()
 	{
-		try {
-			$response = $this->request->getOne($this->paymillObject);
-			
-			return $response;
-		} catch (PaymillException $e) {
-			throw $e;
-		}
+		$response = $this->request->getOne($this->paymillObject);
+		
+		return $response;
 	}
 	
 	public function update($email = null, $description = null)
 	{
+		if (!$this->paymillObject->getId()) {
+			return false;
+		}
+		
 		if (!$email) {
 			$email = $this->billing->email;
 		}
 		
-		try {
-			$this->paymillObject->setEmail($email);
-			
-			if ($description) {
-				$this->paymillObject->setDescription($description);
-			}
-			
-			$response = $this->request->update($this->paymillObject);
-			
-			return $this;
-		} catch (PaymillException $e) {
-			throw $e;
+		$this->paymillObject->setEmail($email);
+		
+		if ($description) {
+			$this->paymillObject->setDescription($description);
 		}
+		
+		$response = $this->request->update($this->paymillObject);
+		
+		return $this;
 	}
 	
 	public function remove()
 	{
-		try {
-			$response = $this->request->delete($this->paymillObject);
-			$this->billing->nullId();
-			
-			return $response;
-		} catch (PaymillException $e) {
-			throw $e;
-		}
+		$response = $this->request->delete($this->paymillObject);
+		$this->billing->nullId();
+		
+		return $response;
 	}
 	
 }

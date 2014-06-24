@@ -37,5 +37,28 @@ trait BillingTrait {
 			
 		return new PaymillGateway($this, $client);
 	}
+	
+	public function payment($token = false, $id = false)
+	{
+		
+		if (!$this->client_id) {
+			return \App::abort(500, 'No client is connected to this account');
+		}
+		
+		$this->currentAction = 'payment';
+		
+		$payment = new \Paymill\Models\Request\Payment();
+		$payment->setClient($this->client_id);
+			
+		if ($id) {
+			$payment->setId($id);
+		}
+		
+		if ($token) {
+			$payment->setToken($token);
+		}
+			
+		return new PaymillGateway($this, $payment);
+	}
 
 }

@@ -7,5 +7,7 @@ interface BillingInterface {
 	public function nullId();
 	
 	public function client();
+	
+	public function payment($token, $id);
 
 }

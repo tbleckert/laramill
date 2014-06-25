@@ -9,5 +9,7 @@ interface BillingInterface {
 	public function client();
 	
 	public function payment($token, $id);
+	
+	public function subscription($plan, $payment_interval);
 
 }

@@ -68,3 +68,34 @@ Updating a client is very similar to creating one:
 To remove a client from paymill, simply use the `remove` method:
 
 	$user->client()->remove();
+
+## Payments
+
+For any subscription or transaction, the client needs a payment. To create a payment we need to use the Paymill Bridge. The Bridge generates a token that we need when creating our payment.
+
+### Create payment
+
+For the token generation, please have a look at the [official Paymill documentation](https://www.paymill.com/en-gb/documentation-3/introduction/payment-form/). Then, for the back-end:
+
+	$token = Input::get('paymillToken');
+	$user->payment($token)->create();
+	
+### Update payment
+
+There's no functionality for updating a payment, since that makes no sense. Instead, just create a new one and if you want, remove the old one.
+
+### Remove payment
+
+	$user->payment(false, 'payment_id')->remove();
+	
+### Payment details
+
+The details for a payment can give you information like card type, last four card numbers and more.
+
+	$user->payment(false, 'payment_id')->details();
+	
+### List all payments
+
+To get all payments created for a user, use the `all` method:
+
+	$user->payment()->all();

@@ -58,4 +58,20 @@ class PaymillGateway {
 		return $response;
 	}
 	
+	public function all()
+	{
+		$action = $this->billing->currentAction;
+		$userDetails = $this->billing->client()->details();
+		
+		switch ($action) {
+			case 'payment':
+				$response = $userDetails->getPayment();
+				break;
+		}
+		
+		$this->billing->currentAction = $action;
+		
+		return $response;
+	}
+	
 }

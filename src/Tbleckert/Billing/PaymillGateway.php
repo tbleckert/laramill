@@ -67,6 +67,9 @@ class PaymillGateway {
 			case 'payment':
 				$response = $userDetails->getPayment();
 				break;
+			case 'subscription':
+				$response = $userDetails->getSubscription();
+				break;
 		}
 		
 		$this->billing->currentAction = $action;

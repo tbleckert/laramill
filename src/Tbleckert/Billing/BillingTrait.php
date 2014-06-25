@@ -66,24 +66,35 @@ trait BillingTrait {
 		return new PaymillGateway($this, $payment);
 	}
 	
-	public function subscription($plan, $payment_interval, $payment = false)
+	public function subscription($id = false, $plan = false, $payment_interval = false, $payment = false)
 	{
 		if (!$this->client_id) {
 			return \App::abort(500, 'No client is connected to this account');
 		}
 		
-		// Get offer id
-		$offers = \Config::get('billing::offers');
+		$subscription = new \Paymill\Models\Request\Subscription();
+		$subscription->setClient($this->client_id);
 		
-		if (!$offers) {
-			return \App::abort(500, 'No offers were found');
+		if ($id) {
+			$subscription->setId($id);
 		}
 		
-		if (!isset($offers[$plan]) OR !isset($offers[$plan][$payment_interval])) {
-			return \App::abort(500, 'No offer were found');
+		if ($plan AND $payment_interval) {
+			// Get offer id
+			$offers = \Config::get('billing::offers');
+			
+			if (!$offers) {
+				return \App::abort(500, 'No offers were found');
+			}
+			
+			if (!isset($offers[$plan]) OR !isset($offers[$plan][$payment_interval])) {
+				return \App::abort(500, 'No offer were found');
+			}
+			
+			$offer = $offers[$plan][$payment_interval];
+			
+			$subscription->setOffer($offer);
 		}
-		
-		$offer = $offers[$plan][$payment_interval];
 		
 		// Get payment
 		if ($payment) {
@@ -92,15 +103,10 @@ trait BillingTrait {
 			$payments = $this->payment()->all();
 			$payment  = $payments[count($payments) - 1];
 		}
+			
+		$subscription->setPayment($payment->getId());
 		
-		// Start subscription work
 		$this->currentAction = 'subscription';
-		
-		$subscription = new \Paymill\Models\Request\Subscription();
-		$subscription
-			->setClient($this->client_id)
-			->setOffer($offer)
-			->setPayment($payment->getId());
 		
 		return new PaymillGateway($this, $subscription);
 		

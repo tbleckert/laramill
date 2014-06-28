@@ -99,3 +99,39 @@ The details for a payment can give you information like card type, last four car
 To get all payments created for a user, use the `all` method:
 
 	$user->payment()->all();
+	
+## Subscriptions
+
+Subscriptions connects a client to an offer with a payment. Paymill handles the payments automatically on the given interval.
+
+### Create subscription
+
+For a subscription to work, the client needs a payment. You can either pass a payment id to the subscription method or let Billing automatically set the last registered payment. If the user already have a subscription, the create method will throw an exception.
+
+	$user->subscription('Basic', 'annually')->create(); // Alternative 1
+	$user->subscription('Basic', 'annually', 'pay_id')->create(); // Alternative 2
+	
+### Subscription details
+
+Since the subscription id is saved to the database, you don't have to pass any parameter.
+
+	$user->subscription()->details();
+	
+### Update subscription
+
+You can update a subscription to move the client to another offer or if the client has a new or updated payment.
+
+	$user->subscription('Basic', 'monthly')->update();
+	
+### Cancel subscription
+
+At the moment, canceling a subscription will remove the client immediately from the subscription.
+
+	$user->subscription()->remove();
+	
+### List all subscriptions
+
+At the moment, Billing only supports 1 subscription per user, but the `all` method still exists:
+
+	$user->subscription()->all();
+	

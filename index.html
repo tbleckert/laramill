@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Billing by tbleckert</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Billing</h1>
+        <h2>Billing is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions</h2>
+        <a href="https://github.com/tbleckert/billing" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="billing" class="anchor" href="#billing"><span class="octicon octicon-link"></span></a>Billing</h1>
+
+<p>Billing is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions</p>
+
+<ul>
+<li><a href="#install">Install</a></li>
+<li><a href="#configure">Configuration</a></li>
+<li><a href="#offers">Offers</a></li>
+<li><a href="#clients">Clients</a></li>
+<li><a href="#payments">Payments</a></li>
+<li><a href="#subscriptions">Subscriptions</a></li>
+</ul><h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
+
+<p>Simply add Billing to your <code>composer.json</code>:</p>
+
+<pre><code>"tbleckert/billing": "dev-master"
+</code></pre>
+
+<h2>
+<a name="configure" class="anchor" href="#configure"><span class="octicon octicon-link"></span></a>Configure</h2>
+
+<p>To start using Billing you need to publish the config files:</p>
+
+<pre><code>php artisan config:publish tbleckert/billing
+</code></pre>
+
+<p>Then fill in your public and private Paymill keys in your new config located at <code>app/config/packages/tbleckert/billing/config.php</code></p>
+
+<h3>
+<a name="offers" class="anchor" href="#offers"><span class="octicon octicon-link"></span></a>Offers</h3>
+
+<p>To add Paymill offers/plans you open the config file (see above) and fill the offers array as follows:</p>
+
+<pre><code>'offers'  =&gt; array(
+    'Basic' =&gt; array(
+        'monthly'  =&gt; 'offer_key',
+        'annually' =&gt; 'offer_key'
+    ),
+    'Special' =&gt; array(
+        'daily'  =&gt; 'offer_key',
+        'weekly' =&gt; 'offer_key'
+    )
+)
+</code></pre>
+
+<p>Each offer has a name and an array containing offer keys for each payment interval that the offer supports. As an example, you would use this code to subscribe a user to the basic plan with annual payment:</p>
+
+<pre><code>$user = User::find(1);
+$user-&gt;subscription('Basic', 'annually')-&gt;create($token);
+</code></pre>
+
+<p>More about subscriptions further down.</p>
+
+<h2>
+<a name="clients" class="anchor" href="#clients"><span class="octicon octicon-link"></span></a>Clients</h2>
+
+<p>Each user needs a client in Paymill. I suggest that you set up a client in the user registration step (even if you support free accounts). This way, you have the user prepared for subscriptions and payments.</p>
+
+<h3>
+<a name="create-client" class="anchor" href="#create-client"><span class="octicon octicon-link"></span></a>Create client</h3>
+
+<p>The <code>email</code> column will be used by default as the client email.</p>
+
+<pre><code>$user-&gt;client()-&gt;create();
+</code></pre>
+
+<p>To set a different email, you can just pass it as a parameter in the <code>create</code> method:</p>
+
+<pre><code>$user-&gt;client()-&gt;create('myemail@domain.com');
+</code></pre>
+
+<p>You can also add an optional description text</p>
+
+<pre><code>$user-&gt;client()-&gt;create('myemail@domain.com', 'Client description');
+</code></pre>
+
+<h3>
+<a name="update-client" class="anchor" href="#update-client"><span class="octicon octicon-link"></span></a>Update client</h3>
+
+<p>Updating a client is very similar to creating one:</p>
+
+<pre><code>$user-&gt;client()-&gt;update('myemail@domain.com', 'Client description');
+</code></pre>
+
+<h3>
+<a name="remove-client" class="anchor" href="#remove-client"><span class="octicon octicon-link"></span></a>Remove client</h3>
+
+<p>To remove a client from paymill, simply use the <code>remove</code> method:</p>
+
+<pre><code>$user-&gt;client()-&gt;remove();
+</code></pre>
+
+<h2>
+<a name="payments" class="anchor" href="#payments"><span class="octicon octicon-link"></span></a>Payments</h2>
+
+<p>For any subscription or transaction, the client needs a payment. To create a payment we need to use the Paymill Bridge. The Bridge generates a token that we need when creating our payment.</p>
+
+<h3>
+<a name="create-payment" class="anchor" href="#create-payment"><span class="octicon octicon-link"></span></a>Create payment</h3>
+
+<p>For the token generation, please have a look at the <a href="https://www.paymill.com/en-gb/documentation-3/introduction/payment-form/">official Paymill documentation</a>. Then, for the back-end:</p>
+
+<pre><code>$token = Input::get('paymillToken');
+$user-&gt;payment($token)-&gt;create();
+</code></pre>
+
+<h3>
+<a name="update-payment" class="anchor" href="#update-payment"><span class="octicon octicon-link"></span></a>Update payment</h3>
+
+<p>There's no functionality for updating a payment, since that makes no sense. Instead, just create a new one and if you want, remove the old one.</p>
+
+<h3>
+<a name="remove-payment" class="anchor" href="#remove-payment"><span class="octicon octicon-link"></span></a>Remove payment</h3>
+
+<pre><code>$user-&gt;payment(false, 'payment_id')-&gt;remove();
+</code></pre>
+
+<h3>
+<a name="payment-details" class="anchor" href="#payment-details"><span class="octicon octicon-link"></span></a>Payment details</h3>
+
+<p>The details for a payment can give you information like card type, last four card numbers and more.</p>
+
+<pre><code>$user-&gt;payment(false, 'payment_id')-&gt;details();
+</code></pre>
+
+<h3>
+<a name="list-all-payments" class="anchor" href="#list-all-payments"><span class="octicon octicon-link"></span></a>List all payments</h3>
+
+<p>To get all payments created for a user, use the <code>all</code> method:</p>
+
+<pre><code>$user-&gt;payment()-&gt;all();
+</code></pre>
+
+<h2>
+<a name="subscriptions" class="anchor" href="#subscriptions"><span class="octicon octicon-link"></span></a>Subscriptions</h2>
+
+<p>Subscriptions connects a client to an offer with a payment. Paymill handles the payments automatically on the given interval.</p>
+
+<h3>
+<a name="create-subscription" class="anchor" href="#create-subscription"><span class="octicon octicon-link"></span></a>Create subscription</h3>
+
+<p>For a subscription to work, the client needs a payment. You can either pass a payment id to the subscription method or let Billing automatically set the last registered payment. If the user already have a subscription, the create method will throw an exception.</p>
+
+<pre><code>$user-&gt;subscription('Basic', 'annually')-&gt;create(); // Alternative 1
+$user-&gt;subscription('Basic', 'annually', 'pay_id')-&gt;create(); // Alternative 2
+</code></pre>
+
+<h3>
+<a name="subscription-details" class="anchor" href="#subscription-details"><span class="octicon octicon-link"></span></a>Subscription details</h3>
+
+<p>Since the subscription id is saved to the database, you don't have to pass any parameter.</p>
+
+<pre><code>$user-&gt;subscription()-&gt;details();
+</code></pre>
+
+<h3>
+<a name="update-subscription" class="anchor" href="#update-subscription"><span class="octicon octicon-link"></span></a>Update subscription</h3>
+
+<p>You can update a subscription to move the client to another offer or if the client has a new or updated payment.</p>
+
+<pre><code>$user-&gt;subscription('Basic', 'monthly')-&gt;update();
+</code></pre>
+
+<h3>
+<a name="cancel-subscription" class="anchor" href="#cancel-subscription"><span class="octicon octicon-link"></span></a>Cancel subscription</h3>
+
+<p>At the moment, canceling a subscription will remove the client immediately from the subscription.</p>
+
+<pre><code>$user-&gt;subscription()-&gt;remove();
+</code></pre>
+
+<h3>
+<a name="list-all-subscriptions" class="anchor" href="#list-all-subscriptions"><span class="octicon octicon-link"></span></a>List all subscriptions</h3>
+
+<p>At the moment, Billing only supports 1 subscription per user, but the <code>all</code> method still exists:</p>
+
+<pre><code>$user-&gt;subscription()-&gt;all();
+</code></pre>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/tbleckert/billing/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/tbleckert/billing/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/tbleckert/billing"></a> is maintained by <a href="https://github.com/tbleckert">tbleckert</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>

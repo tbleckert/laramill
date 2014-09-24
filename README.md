@@ -124,11 +124,11 @@ Since the subscription id is saved to the database, you don't have to pass any p
 
 	$user->subscription()->details();
 	
-### Update subscription
+### Swap subscription
 
-You can update a subscription to move the client to another offer or if the client has a new or updated payment.
+To move the client to a new subscription plan you can use the swap method. Set the new subscription (just like the create method) and call `swap`.
 
-	$user->subscription('Basic', 'monthly')->update();
+	$user->subscription('Basic', 'monthly')->swap();
 	
 ### Cancel subscription
 

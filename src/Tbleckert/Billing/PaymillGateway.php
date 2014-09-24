@@ -47,6 +47,28 @@ class PaymillGateway {
 		return $response;
 	}
 	
+	public function swap()
+	{
+		$action = $this->billing->currentAction;
+		
+		if ($action != 'subscription') {
+			throw new BillingException('This method is not allowed for the provided action.', 405);
+		}
+		
+		if (!$this->billing->subscription_id) {
+			throw new BillingException('The user is not subscribed to a subscription.', 403);
+		}
+		
+		if (!$this->paymillObject->getOffer()) {
+			throw new BillingException('No offer set to swap to.', 428);
+		}
+		
+		$this->paymillObject->setId($this->billing->subscription_id);
+		$response = $this->request->update($this->paymillObject);
+		
+		return $this;
+	}
+	
 	public function update($email = null, $description = null)
 	{
 		if (!$this->paymillObject->getId()) {

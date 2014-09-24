@@ -47,7 +47,7 @@ trait BillingTrait {
 	public function payment($token = false, $id = false)
 	{
 		if (!$this->client_id) {
-			return \App::abort(500, 'No client is connected to this account');
+			throw new BillingException('The user is has to be connected to a Paymill client to make a payment.', 401);
 		}
 		
 		$this->currentAction = 'payment';
@@ -69,7 +69,7 @@ trait BillingTrait {
 	public function subscription($plan = false, $payment_interval = false, $payment = false)
 	{
 		if (!$this->client_id) {
-			return \App::abort(500, 'No client is connected to this account');
+			throw new BillingException('The user is has to be connected to a Paymill client to make a payment.', 401);
 		}
 		
 		$subscription = new \Paymill\Models\Request\Subscription();
@@ -79,12 +79,8 @@ trait BillingTrait {
 			// Get offer id
 			$offers = \Config::get('billing::offers');
 			
-			if (!$offers) {
-				return \App::abort(500, 'No offers were found');
-			}
-			
-			if (!isset($offers[$plan]) OR !isset($offers[$plan][$payment_interval])) {
-				return \App::abort(500, 'No offer were found');
+			if (!$offers OR (!isset($offers[$plan]) OR !isset($offers[$plan][$payment_interval]))) {
+				throw new BillingException('No offers found.', 412);
 			}
 			
 			$offer = $offers[$plan][$payment_interval];

@@ -69,6 +69,43 @@ class PaymillGateway {
 		return $this;
 	}
 	
+	public function pause()
+	{
+		$action = $this->billing->currentAction;
+		
+		if ($action != 'subscription') {
+			throw new BillingException('This method is not allowed for the provided action.', 405);
+		}
+		
+		if (!$this->billing->subscription_id) {
+			throw new BillingException('The user is not subscribed to a subscription.', 403);
+		}
+		
+		$this->paymillObject->setId($this->billing->subscription_id)->setPause(true);
+		
+		$response = $this->request->update($this->paymillObject);
+		return $this;
+	}
+	
+	public function resume()
+	{
+		$action = $this->billing->currentAction;
+		
+		if ($action != 'subscription') {
+			throw new BillingException('This method is not allowed for the provided action.', 405);
+		}
+		
+		if (!$this->billing->subscription_id) {
+			throw new BillingException('The user is not subscribed to a subscription.', 403);
+		}
+		
+		$this->paymillObject->setId($this->billing->subscription_id)->setPause(false);
+		
+		$response = $this->request->update($this->paymillObject);
+		
+		return $this;
+	}
+	
 	public function update($email = null, $description = null)
 	{
 		if (!$this->paymillObject->getId()) {

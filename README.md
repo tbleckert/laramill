@@ -130,6 +130,18 @@ To move the client to a new subscription plan you can use the swap method. Set t
 
 	$user->subscription('Basic', 'monthly')->swap();
 	
+### Pause subscription
+
+Pausing a subscription requires no parameters and you can use `resume` to resume the subscription at any time. 
+
+	$user->subscription()->pause();
+	
+### Resume subscription
+
+When a subscription is paused you can use this method to activate it again.
+
+	$user->subscription()->resume();
+	
 ### Cancel subscription
 
 At the moment, canceling a subscription will remove the client immediately from the subscription.

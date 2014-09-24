@@ -142,11 +142,17 @@ When a subscription is paused you can use this method to activate it again.
 
 	$user->subscription()->resume();
 	
-### Cancel subscription
+### Remove subscription
 
-At the moment, canceling a subscription will remove the client immediately from the subscription.
+Removing a subscription will delete it completely from Paymill and removes the subscription id from the database. Check the `cancel` method to only cancel the subscription.
 
 	$user->subscription()->remove();
+	
+### Cancel subscription
+
+When you cancel a subscription it will remain in your database and in Paymill, but it will not be active. Therefor it can be activated again manually in the Paymill admin. To completely remove it, see the `remove` method.
+
+	$user->subscription()->cancel();
 	
 ### List all subscriptions
 

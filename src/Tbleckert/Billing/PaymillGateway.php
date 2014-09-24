@@ -102,7 +102,6 @@ class PaymillGateway {
 		$this->paymillObject->setId($this->billing->subscription_id)->setPause(false);
 		
 		$response = $this->request->update($this->paymillObject);
-		
 		return $this;
 	}
 	
@@ -123,12 +122,37 @@ class PaymillGateway {
 		}
 		
 		$response = $this->request->update($this->paymillObject);
+		return $this;
+	}
+	
+	public function cancel()
+	{
+		$action = $this->billing->currentAction;
 		
+		if ($action != 'subscription') {
+			throw new BillingException('This method is not allowed for the provided action.', 405);
+		}
+		
+		if (!$this->billing->subscription_id) {
+			throw new BillingException('The user is not subscribed to a subscription.', 403);
+		}
+		
+		$this->paymillObject->setId($this->billing->subscription_id)->setRemove(false);
+	
+		$response = $this->request->delete($this->paymillObject);
 		return $this;
 	}
 	
 	public function remove()
 	{
+		$action = $this->billing->currentAction;
+		
+		if ($action == 'subscription' AND $this->billing->subscription_id) {
+			$this->paymillObject->setId($this->billing->subscription_id)->setRemove(true);
+		} elseif ($action == 'subscription' AND !$this->billing->subscription_id) {
+			throw new BillingException('The user is not subscribed to a subscription.', 403);
+		}
+	
 		$response = $this->request->delete($this->paymillObject);
 		$this->billing->nullId();
 		

@@ -30,6 +30,14 @@ class PaymillGateway {
 	
 	public function details()
 	{
+		$action = $this->billing->currentAction;
+		
+		if ($action == 'subscription' AND $this->billing->subscription_id) {
+			$this->paymillObject->setId($this->billing->subscription_id);
+		} elseif ($action == 'subscription' AND !$this->billing->subscription_id) {
+			throw new BillingException('The user is not subscribed to a subscription.', 403);
+		}
+		
 		if (!$this->paymillObject->getId()) {
 			return false;
 		}

@@ -3,31 +3,34 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
     <title>Billing by tbleckert</title>
   </head>
 
   <body>
-    <header>
+    <div id="container">
       <div class="inner">
-        <h1>Billing</h1>
-        <h2>Billing is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions</h2>
-        <a href="https://github.com/tbleckert/billing" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
+        <header>
+          <h1>Billing</h1>
+          <h2>Billing is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/tbleckert/billing/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/tbleckert/billing/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/tbleckert/billing" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
           <h1>
 <a name="billing" class="anchor" href="#billing"><span class="octicon octicon-link"></span></a>Billing</h1>
 
@@ -186,19 +189,43 @@ $user-&gt;subscription('Basic', 'annually', 'pay_id')-&gt;create(); // Alternati
 </code></pre>
 
 <h3>
-<a name="update-subscription" class="anchor" href="#update-subscription"><span class="octicon octicon-link"></span></a>Update subscription</h3>
+<a name="swap-subscription" class="anchor" href="#swap-subscription"><span class="octicon octicon-link"></span></a>Swap subscription</h3>
 
-<p>You can update a subscription to move the client to another offer or if the client has a new or updated payment.</p>
+<p>To move the client to a new subscription plan you can use the swap method. Set the new subscription (just like the create method) and call <code>swap</code>.</p>
 
-<pre><code>$user-&gt;subscription('Basic', 'monthly')-&gt;update();
+<pre><code>$user-&gt;subscription('Basic', 'monthly')-&gt;swap();
+</code></pre>
+
+<h3>
+<a name="pause-subscription" class="anchor" href="#pause-subscription"><span class="octicon octicon-link"></span></a>Pause subscription</h3>
+
+<p>Pausing a subscription requires no parameters and you can use <code>resume</code> to resume the subscription at any time. </p>
+
+<pre><code>$user-&gt;subscription()-&gt;pause();
+</code></pre>
+
+<h3>
+<a name="resume-subscription" class="anchor" href="#resume-subscription"><span class="octicon octicon-link"></span></a>Resume subscription</h3>
+
+<p>When a subscription is paused you can use this method to activate it again.</p>
+
+<pre><code>$user-&gt;subscription()-&gt;resume();
+</code></pre>
+
+<h3>
+<a name="remove-subscription" class="anchor" href="#remove-subscription"><span class="octicon octicon-link"></span></a>Remove subscription</h3>
+
+<p>Removing a subscription will delete it completely from Paymill and removes the subscription id from the database. Check the <code>cancel</code> method to only cancel the subscription.</p>
+
+<pre><code>$user-&gt;subscription()-&gt;remove();
 </code></pre>
 
 <h3>
 <a name="cancel-subscription" class="anchor" href="#cancel-subscription"><span class="octicon octicon-link"></span></a>Cancel subscription</h3>
 
-<p>At the moment, canceling a subscription will remove the client immediately from the subscription.</p>
+<p>When you cancel a subscription it will remain in your database and in Paymill, but it will not be active. Therefor it can be activated again manually in the Paymill admin. To completely remove it, see the <code>remove</code> method.</p>
 
-<pre><code>$user-&gt;subscription()-&gt;remove();
+<pre><code>$user-&gt;subscription()-&gt;cancel();
 </code></pre>
 
 <h3>
@@ -210,23 +237,23 @@ $user-&gt;subscription('Basic', 'annually', 'pay_id')-&gt;create(); // Alternati
 </code></pre>
         </section>
 
-        <aside id="sidebar">
-          <a href="https://github.com/tbleckert/billing/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/tbleckert/billing/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+        <footer>
+          Billing is maintained by <a href="https://github.com/tbleckert">tbleckert</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
 
-          <p class="repo-owner"><a href="https://github.com/tbleckert/billing"></a> is maintained by <a href="https://github.com/tbleckert">tbleckert</a>.</p>
+                  <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-31456432-7");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
 
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
       </div>
     </div>
-
-  
   </body>
 </html>

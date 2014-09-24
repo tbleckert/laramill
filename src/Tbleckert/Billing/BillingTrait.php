@@ -66,7 +66,7 @@ trait BillingTrait {
 		return new PaymillGateway($this, $payment);
 	}
 	
-	public function subscription($id = false, $plan = false, $payment_interval = false, $payment = false)
+	public function subscription($plan = false, $payment_interval = false, $payment = false)
 	{
 		if (!$this->client_id) {
 			return \App::abort(500, 'No client is connected to this account');
@@ -74,10 +74,6 @@ trait BillingTrait {
 		
 		$subscription = new \Paymill\Models\Request\Subscription();
 		$subscription->setClient($this->client_id);
-		
-		if ($id) {
-			$subscription->setId($id);
-		}
 		
 		if ($plan AND $payment_interval) {
 			// Get offer id

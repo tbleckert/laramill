@@ -14,6 +14,12 @@ class PaymillGateway {
 	
 	public function create($token = null)
 	{
+		$action     = $this->billing->currentAction;
+		
+		if ($action == 'client' AND $this->billing->client_id) {
+			throw new BillingException('The user is already connected to a Paymill client.', 403);
+		}
+		
 		$response   = $this->request->create($this->paymillObject);
 		$responseId = $response->getId();
 		

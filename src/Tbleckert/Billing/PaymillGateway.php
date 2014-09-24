@@ -24,6 +24,10 @@ class PaymillGateway {
 	
 	public function details()
 	{
+		if (!$this->paymillObject->getId()) {
+			return false;
+		}
+		
 		$response = $this->request->getOne($this->paymillObject);
 		
 		return $response;

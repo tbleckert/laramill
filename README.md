@@ -14,7 +14,7 @@ Billing is a Laravel package that provides a powerful bridge to Paymill that mak
 
 Simply add Billing to your `composer.json`:
 
-	"tbleckert/billing": "dev-master"
+	"tbleckert/billing": "1.0-beta.1"
 
 ## Configure
 

@@ -1,6 +1,7 @@
 {
     "name": "tbleckert/billing",
-    "description": "",
+    "description": "Billing is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions",
+    "keywords": ["payments", "laravel", "billing", "paymill"],
     "authors": [
         {
             "name": "Tobias Bleckert",

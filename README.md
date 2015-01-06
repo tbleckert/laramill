@@ -160,3 +160,12 @@ At the moment, Billing only supports 1 subscription per user, but the `all` meth
 
 	$user->subscription()->all();
 	
+## Transactions
+
+Transactions are one off payments and can be made against a stored payment.
+
+### Create transaction
+
+For a transaction to work, the client needs a payment. You can either pass a payment id to the transaction method or let Billing automatically set the last registered payment.
+
+    $transaction = $user->transaction(1000, 'pay_id')->create();

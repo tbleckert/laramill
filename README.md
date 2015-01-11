@@ -9,6 +9,7 @@ Billing is a Laravel package that provides a powerful bridge to Paymill that mak
 - [Clients](#clients)
 - [Payments](#payments)
 - [Subscriptions](#subscriptions)
+- [Transactions](#transactions)
 
 ## Install
 

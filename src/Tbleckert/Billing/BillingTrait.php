@@ -107,7 +107,7 @@ trait BillingTrait {
 	public function transaction($payment = false, $id = false, $amount = false, $currency = 'GBP')
 	{
 		if (!$this->client_id) {
-			throw new BillingException('The user is has to be connected to a Paymill client to make a payment.', 401);
+			throw new BillingException('The user has to be connected to a Paymill client to make a payment.', 401);
 		}
 
 		$transaction = new \Paymill\Models\Request\Transaction();

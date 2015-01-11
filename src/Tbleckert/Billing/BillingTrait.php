@@ -89,13 +89,13 @@ trait BillingTrait {
 		}
 		
 		// Get payment
-        if ($payment) {
-            $payment = $this->payment($payment)->details();
-        } else {        
-            $payments = $this->payment()->all();
-            $payment  = $payments[count($payments) - 1];
-        }
-			
+		if ($payment) {
+			$payment = $this->payment($payment)->details();
+		} else {
+			$payments = $this->payment()->all();
+			$payment  = $payments[count($payments) - 1];
+		}
+
 		$subscription->setPayment($payment->getId());
 		
 		$this->currentAction = 'subscription';
@@ -104,44 +104,40 @@ trait BillingTrait {
 		
 	}
 
-    public function transaction($payment = false, $id = false, $amount = false, $currency = 'GBP')
-    {
-        if (!$this->client_id) {
-            throw new BillingException('The user is has to be connected to a Paymill client to make a payment.', 401);
-        }
-        
-        $transaction = new \Paymill\Models\Request\Transaction();
-        $transaction->setClient($this->client_id);
+	public function transaction($payment = false, $id = false, $amount = false, $currency = 'GBP')
+	{
+		if (!$this->client_id) {
+			throw new BillingException('The user is has to be connected to a Paymill client to make a payment.', 401);
+		}
 
-        if ($id) {
-            $transaction->setId($id);
-        } else {
+		$transaction = new \Paymill\Models\Request\Transaction();
+		$transaction->setClient($this->client_id);
 
-            // Get payment
-            if ($payment) {
-                $payment = $this->payment(false, $payment)->details();
-            } else {    
+		if ($id) {
+			$transaction->setId($id);
+		} else {
+			// Get payment
+			if ($payment) {
+				$payment = $this->payment(false, $payment)->details();
+			} else {    
+				$payments = $this->payment()->all();
 
-                $payments = $this->payment()->all();
+				if (empty($payments)) {
+					throw new BillingException('The user has to have a payment to create a transaction.', 401);
+				}
 
-                if (empty($payments)) {
-                    throw new BillingException('The user has to have a payment to create a transaction.', 401);
-                }
+				$payment  = $payments[count($payments) - 1];
+			} 
 
-                $payment  = $payments[count($payments) - 1];
-            } 
+			$transaction->setPayment($payment->getId());
 
-            $transaction->setPayment($payment->getId());
+			$transaction->setAmount($amount);
+			$transaction->setCurrency($currency);
+		}
 
-            $transaction->setAmount($amount);
-            $transaction->setCurrency($currency);
+		$this->currentAction = 'transaction';
 
-        }
-        
-        $this->currentAction = 'transaction';
-        
-        return new PaymillGateway($this, $transaction);
-        
-    }
+		return new PaymillGateway($this, $transaction);
+	}
 
 }

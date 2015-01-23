@@ -9,6 +9,7 @@ Billing is a Laravel package that provides a powerful bridge to Paymill that mak
 - [Clients](#clients)
 - [Payments](#payments)
 - [Subscriptions](#subscriptions)
+- [Transactions](#transactions)
 
 ## Install
 
@@ -160,3 +161,18 @@ At the moment, Billing only supports 1 subscription per user, but the `all` meth
 
 	$user->subscription()->all();
 	
+## Transactions
+
+Transactions are one off payments and can be made against a stored payment.
+
+### Create transaction
+
+For a transaction to work, the client needs a payment. You can either pass a payment id to the transaction method or let Billing automatically set the last registered payment.
+
+	$transaction = $user->transaction('pay_id', false, 1000)->create();
+
+### Transaction details
+
+The details for a transaction can give you information like card type, last four card numbers and more.
+
+	$transaction = $user->transaction(false, 'transaction_id')->details();

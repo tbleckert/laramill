@@ -91,17 +91,53 @@ trait BillingTrait {
 		// Get payment
 		if ($payment) {
 			$payment = $this->payment($payment)->details();
-		} else {		
+		} else {
 			$payments = $this->payment()->all();
 			$payment  = $payments[count($payments) - 1];
 		}
-			
+
 		$subscription->setPayment($payment->getId());
 		
 		$this->currentAction = 'subscription';
 		
 		return new PaymillGateway($this, $subscription);
 		
+	}
+
+	public function transaction($payment = false, $id = false, $amount = false, $currency = 'GBP')
+	{
+		if (!$this->client_id) {
+			throw new BillingException('The user has to be connected to a Paymill client to make a payment.', 401);
+		}
+
+		$transaction = new \Paymill\Models\Request\Transaction();
+		$transaction->setClient($this->client_id);
+
+		if ($id) {
+			$transaction->setId($id);
+		} else {
+			// Get payment
+			if ($payment) {
+				$payment = $this->payment(false, $payment)->details();
+			} else {    
+				$payments = $this->payment()->all();
+
+				if (empty($payments)) {
+					throw new BillingException('The user has to have a payment to create a transaction.', 401);
+				}
+
+				$payment  = $payments[count($payments) - 1];
+			} 
+
+			$transaction->setPayment($payment->getId());
+
+			$transaction->setAmount($amount);
+			$transaction->setCurrency($currency);
+		}
+
+		$this->currentAction = 'transaction';
+
+		return new PaymillGateway($this, $transaction);
 	}
 
 }

@@ -12,4 +12,6 @@ interface BillingInterface {
 	
 	public function subscription($plan, $payment_interval);
 
+    public function transaction($payment, $id, $amount);
+
 }

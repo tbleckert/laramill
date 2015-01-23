@@ -117,7 +117,7 @@ Subscriptions connects a client to an offer with a payment. Paymill handles the 
 For a subscription to work, the client needs a payment. You can either pass a payment id to the subscription method or let Billing automatically set the last registered payment. If the user already have a subscription, the create method will throw an exception.
 
 	$user->subscription('Basic', 'annually')->create(); // Alternative 1
-	$user->subscription('Basic', 'annually', 'pay_id')->create(); // Alternative 2
+	$user->subscription('Basic', 'annually', 'payment_id')->create(); // Alternative 2
 	
 ### Subscription details
 
@@ -169,7 +169,7 @@ Transactions are one off payments and can be made against a stored payment.
 
 For a transaction to work, the client needs a payment. You can either pass a payment id to the transaction method or let Billing automatically set the last registered payment.
 
-	$transaction = $user->transaction('pay_id', false, 1000)->create();
+	$transaction = $user->transaction('payment_id', false, 1000)->create();
 
 ### Transaction details
 

@@ -1,11 +1,11 @@
 {
-    "name": "tbleckert/billing",
-    "description": "Billing is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions",
+    "name": "tbleckert/laramill",
+    "description": "LaraMill is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions",
     "keywords": ["payments", "laravel", "billing", "paymill"],
     "authors": [
         {
             "name": "Tobias Bleckert",
-            "email": "me@tb-one.se"
+            "email": "hola@tobiasbleckert.se"
         }
     ],
     "require": {
@@ -18,7 +18,7 @@
             "src/migrations"
         ],
         "psr-0": {
-            "Tbleckert\\Billing\\": "src/"
+            "Tbleckert\\LaraMill\\": "src/"
         }
     },
     "minimum-stability": "stable"

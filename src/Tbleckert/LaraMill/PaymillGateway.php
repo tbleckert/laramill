@@ -1,11 +1,11 @@
-<?php namespace Tbleckert\Billing;
+<?php namespace Tbleckert\LaraMill;
 
 class PaymillGateway {
 	
 	protected $billing;
 	protected $paymillObject;
 	
-	public function __construct(BillingInterface $billing, $paymillObject)
+	public function __construct(LaraMillInterface $billing, $paymillObject)
 	{
 		$this->billing = $billing;
 		$this->paymillObject = $paymillObject;

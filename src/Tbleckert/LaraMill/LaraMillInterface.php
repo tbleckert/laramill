@@ -1,6 +1,6 @@
-<?php namespace Tbleckert\Billing;
+<?php namespace Tbleckert\LaraMill;
 
-interface BillingInterface {
+interface LaraMillInterface {
 	
 	public function saveId($id);
 	

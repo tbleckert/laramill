@@ -1,6 +1,6 @@
-<?php namespace Tbleckert\Billing;
+<?php namespace Tbleckert\LaraMill;
 
-trait BillingTrait {
+trait LaraMillTrait {
 	
 	public $currentAction = null;
 	
@@ -47,7 +47,7 @@ trait BillingTrait {
 	public function payment($token = false, $id = false)
 	{
 		if (!$this->client_id) {
-			throw new BillingException('The user is has to be connected to a Paymill client to make a payment.', 401);
+			throw new LaraMillException('The user is has to be connected to a Paymill client to make a payment.', 401);
 		}
 		
 		$this->currentAction = 'payment';
@@ -69,7 +69,7 @@ trait BillingTrait {
 	public function subscription($plan = false, $payment_interval = false, $payment = false)
 	{
 		if (!$this->client_id) {
-			throw new BillingException('The user is has to be connected to a Paymill client to make a payment.', 401);
+			throw new LaraMillException('The user is has to be connected to a Paymill client to make a payment.', 401);
 		}
 		
 		$subscription = new \Paymill\Models\Request\Subscription();
@@ -80,7 +80,7 @@ trait BillingTrait {
 			$offers = \Config::get('billing::offers');
 			
 			if (!$offers OR (!isset($offers[$plan]) OR !isset($offers[$plan][$payment_interval]))) {
-				throw new BillingException('No offers found.', 412);
+				throw new LaraMillException('No offers found.', 412);
 			}
 			
 			$offer = $offers[$plan][$payment_interval];
@@ -107,7 +107,7 @@ trait BillingTrait {
 	public function transaction($payment = false, $id = false, $amount = false, $currency = 'GBP')
 	{
 		if (!$this->client_id) {
-			throw new BillingException('The user has to be connected to a Paymill client to make a payment.', 401);
+			throw new LaraMillException('The user has to be connected to a Paymill client to make a payment.', 401);
 		}
 
 		$transaction = new \Paymill\Models\Request\Transaction();
@@ -123,7 +123,7 @@ trait BillingTrait {
 				$payments = $this->payment()->all();
 
 				if (empty($payments)) {
-					throw new BillingException('The user has to have a payment to create a transaction.', 401);
+					throw new LaraMillException('The user has to have a payment to create a transaction.', 401);
 				}
 
 				$payment  = $payments[count($payments) - 1];

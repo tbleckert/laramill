@@ -1,8 +1,8 @@
-<?php namespace Tbleckert\Billing;
+<?php namespace Tbleckert\LaraMill;
 
 use Illuminate\Support\ServiceProvider;
 
-class BillingServiceProvider extends ServiceProvider {
+class LaraMillServiceProvider extends ServiceProvider {
 
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -18,7 +18,7 @@ class BillingServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('tbleckert/billing');
+		$this->package('tbleckert/laramill');
 	}
 
 	/**
@@ -28,7 +28,7 @@ class BillingServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app['billing'] = $this->app->share(function ($app)
+		$this->app['laramill'] = $this->app->share(function ($app)
 		{
 			return new Billing;
 		});
@@ -41,7 +41,7 @@ class BillingServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('billing');
+		return array('laramill');
 	}
 
 }

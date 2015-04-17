@@ -1,40 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta charset="UTF-8">
     <title>Billing by tbleckert</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
-    <div id="container">
-      <div class="inner">
+    <section class="page-header">
+      <h1 class="project-name">Billing</h1>
+      <h2 class="project-tagline">Billing is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions</h2>
+      <a href="https://github.com/tbleckert/laramill" class="btn">View on GitHub</a>
+      <a href="https://github.com/tbleckert/laramill/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/tbleckert/laramill/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-        <header>
-          <h1>Billing</h1>
-          <h2>Billing is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions</h2>
-        </header>
+    <section class="main-content">
+      <h1>
+<a id="laramill" class="anchor" href="#laramill" aria-hidden="true"><span class="octicon octicon-link"></span></a>LaraMill</h1>
 
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/tbleckert/billing/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/tbleckert/billing/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/tbleckert/billing" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
-        <hr>
-
-        <section id="main_content">
-          <h1>
-<a name="billing" class="anchor" href="#billing"><span class="octicon octicon-link"></span></a>Billing</h1>
-
-<p>Billing is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions</p>
+<p>LaraMill is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions</p>
 
 <ul>
 <li><a href="#install">Install</a></li>
@@ -43,26 +31,29 @@
 <li><a href="#clients">Clients</a></li>
 <li><a href="#payments">Payments</a></li>
 <li><a href="#subscriptions">Subscriptions</a></li>
-</ul><h2>
-<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h2>
+<li><a href="#transactions">Transactions</a></li>
+</ul>
 
-<p>Simply add Billing to your <code>composer.json</code>:</p>
+<h2>
+<a id="install" class="anchor" href="#install" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install</h2>
 
-<pre><code>"tbleckert/billing": "dev-master"
+<p>Simply add LaraMill to your <code>composer.json</code>:</p>
+
+<pre><code>"tbleckert/laramill": "1.0-beta.1"
 </code></pre>
 
 <h2>
-<a name="configure" class="anchor" href="#configure"><span class="octicon octicon-link"></span></a>Configure</h2>
+<a id="configure" class="anchor" href="#configure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configure</h2>
 
-<p>To start using Billing you need to publish the config files:</p>
+<p>To start using LaraMill you need to publish the config files:</p>
 
-<pre><code>php artisan config:publish tbleckert/billing
+<pre><code>php artisan config:publish tbleckert/laramill
 </code></pre>
 
-<p>Then fill in your public and private Paymill keys in your new config located at <code>app/config/packages/tbleckert/billing/config.php</code></p>
+<p>Then fill in your public and private Paymill keys in your new config located at <code>app/config/packages/tbleckert/laramill/config.php</code></p>
 
 <h3>
-<a name="offers" class="anchor" href="#offers"><span class="octicon octicon-link"></span></a>Offers</h3>
+<a id="offers" class="anchor" href="#offers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Offers</h3>
 
 <p>To add Paymill offers/plans you open the config file (see above) and fill the offers array as follows:</p>
 
@@ -87,12 +78,12 @@ $user-&gt;subscription('Basic', 'annually')-&gt;create($token);
 <p>More about subscriptions further down.</p>
 
 <h2>
-<a name="clients" class="anchor" href="#clients"><span class="octicon octicon-link"></span></a>Clients</h2>
+<a id="clients" class="anchor" href="#clients" aria-hidden="true"><span class="octicon octicon-link"></span></a>Clients</h2>
 
 <p>Each user needs a client in Paymill. I suggest that you set up a client in the user registration step (even if you support free accounts). This way, you have the user prepared for subscriptions and payments.</p>
 
 <h3>
-<a name="create-client" class="anchor" href="#create-client"><span class="octicon octicon-link"></span></a>Create client</h3>
+<a id="create-client" class="anchor" href="#create-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create client</h3>
 
 <p>The <code>email</code> column will be used by default as the client email.</p>
 
@@ -110,7 +101,7 @@ $user-&gt;subscription('Basic', 'annually')-&gt;create($token);
 </code></pre>
 
 <h3>
-<a name="update-client" class="anchor" href="#update-client"><span class="octicon octicon-link"></span></a>Update client</h3>
+<a id="update-client" class="anchor" href="#update-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>Update client</h3>
 
 <p>Updating a client is very similar to creating one:</p>
 
@@ -118,7 +109,7 @@ $user-&gt;subscription('Basic', 'annually')-&gt;create($token);
 </code></pre>
 
 <h3>
-<a name="remove-client" class="anchor" href="#remove-client"><span class="octicon octicon-link"></span></a>Remove client</h3>
+<a id="remove-client" class="anchor" href="#remove-client" aria-hidden="true"><span class="octicon octicon-link"></span></a>Remove client</h3>
 
 <p>To remove a client from paymill, simply use the <code>remove</code> method:</p>
 
@@ -126,12 +117,12 @@ $user-&gt;subscription('Basic', 'annually')-&gt;create($token);
 </code></pre>
 
 <h2>
-<a name="payments" class="anchor" href="#payments"><span class="octicon octicon-link"></span></a>Payments</h2>
+<a id="payments" class="anchor" href="#payments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Payments</h2>
 
 <p>For any subscription or transaction, the client needs a payment. To create a payment we need to use the Paymill Bridge. The Bridge generates a token that we need when creating our payment.</p>
 
 <h3>
-<a name="create-payment" class="anchor" href="#create-payment"><span class="octicon octicon-link"></span></a>Create payment</h3>
+<a id="create-payment" class="anchor" href="#create-payment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create payment</h3>
 
 <p>For the token generation, please have a look at the <a href="https://www.paymill.com/en-gb/documentation-3/introduction/payment-form/">official Paymill documentation</a>. Then, for the back-end:</p>
 
@@ -140,18 +131,18 @@ $user-&gt;payment($token)-&gt;create();
 </code></pre>
 
 <h3>
-<a name="update-payment" class="anchor" href="#update-payment"><span class="octicon octicon-link"></span></a>Update payment</h3>
+<a id="update-payment" class="anchor" href="#update-payment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Update payment</h3>
 
 <p>There's no functionality for updating a payment, since that makes no sense. Instead, just create a new one and if you want, remove the old one.</p>
 
 <h3>
-<a name="remove-payment" class="anchor" href="#remove-payment"><span class="octicon octicon-link"></span></a>Remove payment</h3>
+<a id="remove-payment" class="anchor" href="#remove-payment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Remove payment</h3>
 
 <pre><code>$user-&gt;payment(false, 'payment_id')-&gt;remove();
 </code></pre>
 
 <h3>
-<a name="payment-details" class="anchor" href="#payment-details"><span class="octicon octicon-link"></span></a>Payment details</h3>
+<a id="payment-details" class="anchor" href="#payment-details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Payment details</h3>
 
 <p>The details for a payment can give you information like card type, last four card numbers and more.</p>
 
@@ -159,7 +150,7 @@ $user-&gt;payment($token)-&gt;create();
 </code></pre>
 
 <h3>
-<a name="list-all-payments" class="anchor" href="#list-all-payments"><span class="octicon octicon-link"></span></a>List all payments</h3>
+<a id="list-all-payments" class="anchor" href="#list-all-payments" aria-hidden="true"><span class="octicon octicon-link"></span></a>List all payments</h3>
 
 <p>To get all payments created for a user, use the <code>all</code> method:</p>
 
@@ -167,21 +158,21 @@ $user-&gt;payment($token)-&gt;create();
 </code></pre>
 
 <h2>
-<a name="subscriptions" class="anchor" href="#subscriptions"><span class="octicon octicon-link"></span></a>Subscriptions</h2>
+<a id="subscriptions" class="anchor" href="#subscriptions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Subscriptions</h2>
 
 <p>Subscriptions connects a client to an offer with a payment. Paymill handles the payments automatically on the given interval.</p>
 
 <h3>
-<a name="create-subscription" class="anchor" href="#create-subscription"><span class="octicon octicon-link"></span></a>Create subscription</h3>
+<a id="create-subscription" class="anchor" href="#create-subscription" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create subscription</h3>
 
-<p>For a subscription to work, the client needs a payment. You can either pass a payment id to the subscription method or let Billing automatically set the last registered payment. If the user already have a subscription, the create method will throw an exception.</p>
+<p>For a subscription to work, the client needs a payment. You can either pass a payment id to the subscription method or let LaraMill automatically set the last registered payment. If the user already have a subscription, the create method will throw an exception.</p>
 
 <pre><code>$user-&gt;subscription('Basic', 'annually')-&gt;create(); // Alternative 1
-$user-&gt;subscription('Basic', 'annually', 'pay_id')-&gt;create(); // Alternative 2
+$user-&gt;subscription('Basic', 'annually', 'payment_id')-&gt;create(); // Alternative 2
 </code></pre>
 
 <h3>
-<a name="subscription-details" class="anchor" href="#subscription-details"><span class="octicon octicon-link"></span></a>Subscription details</h3>
+<a id="subscription-details" class="anchor" href="#subscription-details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Subscription details</h3>
 
 <p>Since the subscription id is saved to the database, you don't have to pass any parameter.</p>
 
@@ -189,7 +180,7 @@ $user-&gt;subscription('Basic', 'annually', 'pay_id')-&gt;create(); // Alternati
 </code></pre>
 
 <h3>
-<a name="swap-subscription" class="anchor" href="#swap-subscription"><span class="octicon octicon-link"></span></a>Swap subscription</h3>
+<a id="swap-subscription" class="anchor" href="#swap-subscription" aria-hidden="true"><span class="octicon octicon-link"></span></a>Swap subscription</h3>
 
 <p>To move the client to a new subscription plan you can use the swap method. Set the new subscription (just like the create method) and call <code>swap</code>.</p>
 
@@ -197,7 +188,7 @@ $user-&gt;subscription('Basic', 'annually', 'pay_id')-&gt;create(); // Alternati
 </code></pre>
 
 <h3>
-<a name="pause-subscription" class="anchor" href="#pause-subscription"><span class="octicon octicon-link"></span></a>Pause subscription</h3>
+<a id="pause-subscription" class="anchor" href="#pause-subscription" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pause subscription</h3>
 
 <p>Pausing a subscription requires no parameters and you can use <code>resume</code> to resume the subscription at any time. </p>
 
@@ -205,7 +196,7 @@ $user-&gt;subscription('Basic', 'annually', 'pay_id')-&gt;create(); // Alternati
 </code></pre>
 
 <h3>
-<a name="resume-subscription" class="anchor" href="#resume-subscription"><span class="octicon octicon-link"></span></a>Resume subscription</h3>
+<a id="resume-subscription" class="anchor" href="#resume-subscription" aria-hidden="true"><span class="octicon octicon-link"></span></a>Resume subscription</h3>
 
 <p>When a subscription is paused you can use this method to activate it again.</p>
 
@@ -213,7 +204,7 @@ $user-&gt;subscription('Basic', 'annually', 'pay_id')-&gt;create(); // Alternati
 </code></pre>
 
 <h3>
-<a name="remove-subscription" class="anchor" href="#remove-subscription"><span class="octicon octicon-link"></span></a>Remove subscription</h3>
+<a id="remove-subscription" class="anchor" href="#remove-subscription" aria-hidden="true"><span class="octicon octicon-link"></span></a>Remove subscription</h3>
 
 <p>Removing a subscription will delete it completely from Paymill and removes the subscription id from the database. Check the <code>cancel</code> method to only cancel the subscription.</p>
 
@@ -221,7 +212,7 @@ $user-&gt;subscription('Basic', 'annually', 'pay_id')-&gt;create(); // Alternati
 </code></pre>
 
 <h3>
-<a name="cancel-subscription" class="anchor" href="#cancel-subscription"><span class="octicon octicon-link"></span></a>Cancel subscription</h3>
+<a id="cancel-subscription" class="anchor" href="#cancel-subscription" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cancel subscription</h3>
 
 <p>When you cancel a subscription it will remain in your database and in Paymill, but it will not be active. Therefor it can be activated again manually in the Paymill admin. To completely remove it, see the <code>remove</code> method.</p>
 
@@ -229,20 +220,43 @@ $user-&gt;subscription('Basic', 'annually', 'pay_id')-&gt;create(); // Alternati
 </code></pre>
 
 <h3>
-<a name="list-all-subscriptions" class="anchor" href="#list-all-subscriptions"><span class="octicon octicon-link"></span></a>List all subscriptions</h3>
+<a id="list-all-subscriptions" class="anchor" href="#list-all-subscriptions" aria-hidden="true"><span class="octicon octicon-link"></span></a>List all subscriptions</h3>
 
-<p>At the moment, Billing only supports 1 subscription per user, but the <code>all</code> method still exists:</p>
+<p>At the moment, LaraMill only supports 1 subscription per user, but the <code>all</code> method still exists:</p>
 
 <pre><code>$user-&gt;subscription()-&gt;all();
 </code></pre>
-        </section>
 
-        <footer>
-          Billing is maintained by <a href="https://github.com/tbleckert">tbleckert</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
+<h2>
+<a id="transactions" class="anchor" href="#transactions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transactions</h2>
 
-                  <script type="text/javascript">
+<p>Transactions are one off payments and can be made against a stored payment.</p>
+
+<h3>
+<a id="create-transaction" class="anchor" href="#create-transaction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create transaction</h3>
+
+<p>For a transaction to work, the client needs a payment. You can either pass a payment id to the transaction method or let LaraMill automatically set the last registered payment.</p>
+
+<pre><code>$transaction = $user-&gt;transaction('payment_id', false, 1000)-&gt;create();
+</code></pre>
+
+<h3>
+<a id="transaction-details" class="anchor" href="#transaction-details" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transaction details</h3>
+
+<p>The details for a transaction can give you information like card type, last four card numbers and more.</p>
+
+<pre><code>$transaction = $user-&gt;transaction(false, 'transaction_id')-&gt;details();
+</code></pre>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/tbleckert/laramill">Billing</a> is maintained by <a href="https://github.com/tbleckert">tbleckert</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -253,7 +267,6 @@ $user-&gt;subscription('Basic', 'annually', 'pay_id')-&gt;create(); // Alternati
             } catch(err) {}
           </script>
 
-      </div>
-    </div>
   </body>
 </html>
+

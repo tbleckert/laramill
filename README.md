@@ -1,7 +1,7 @@
-Billing
+LaraMill
 =======
 
-Billing is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions
+LaraMill is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions
 
 - [Install](#install)
 - [Configuration](#configure)
@@ -13,17 +13,17 @@ Billing is a Laravel package that provides a powerful bridge to Paymill that mak
 
 ## Install
 
-Simply add Billing to your `composer.json`:
+Simply add LaraMill to your `composer.json`:
 
-	"tbleckert/billing": "1.0-beta.1"
+	"tbleckert/laramill": "1.0-beta.1"
 
 ## Configure
 
-To start using Billing you need to publish the config files:
+To start using LaraMill you need to publish the config files:
 
-	php artisan config:publish tbleckert/billing
+	php artisan config:publish tbleckert/laramill
 	
-Then fill in your public and private Paymill keys in your new config located at `app/config/packages/tbleckert/billing/config.php`
+Then fill in your public and private Paymill keys in your new config located at `app/config/packages/tbleckert/laramill/config.php`
 
 ### Offers
 
@@ -114,7 +114,7 @@ Subscriptions connects a client to an offer with a payment. Paymill handles the 
 
 ### Create subscription
 
-For a subscription to work, the client needs a payment. You can either pass a payment id to the subscription method or let Billing automatically set the last registered payment. If the user already have a subscription, the create method will throw an exception.
+For a subscription to work, the client needs a payment. You can either pass a payment id to the subscription method or let LaraMill automatically set the last registered payment. If the user already have a subscription, the create method will throw an exception.
 
 	$user->subscription('Basic', 'annually')->create(); // Alternative 1
 	$user->subscription('Basic', 'annually', 'payment_id')->create(); // Alternative 2
@@ -157,7 +157,7 @@ When you cancel a subscription it will remain in your database and in Paymill, b
 	
 ### List all subscriptions
 
-At the moment, Billing only supports 1 subscription per user, but the `all` method still exists:
+At the moment, LaraMill only supports 1 subscription per user, but the `all` method still exists:
 
 	$user->subscription()->all();
 	
@@ -167,7 +167,7 @@ Transactions are one off payments and can be made against a stored payment.
 
 ### Create transaction
 
-For a transaction to work, the client needs a payment. You can either pass a payment id to the transaction method or let Billing automatically set the last registered payment.
+For a transaction to work, the client needs a payment. You can either pass a payment id to the transaction method or let LaraMill automatically set the last registered payment.
 
 	$transaction = $user->transaction('payment_id', false, 1000)->create();
 

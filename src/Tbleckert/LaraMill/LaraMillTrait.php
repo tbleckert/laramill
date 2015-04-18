@@ -47,7 +47,7 @@ trait LaraMillTrait {
 	public function payment($token = false, $id = false)
 	{
 		if (!$this->client_id) {
-			throw new LaraMillException('The user is has to be connected to a Paymill client to make a payment.', 401);
+			throw new LaraMillException('The user has to be connected to a Paymill client to make a payment.', 401);
 		}
 		
 		$this->currentAction = 'payment';
@@ -69,7 +69,7 @@ trait LaraMillTrait {
 	public function subscription($plan = false, $payment_interval = false, $payment = false)
 	{
 		if (!$this->client_id) {
-			throw new LaraMillException('The user is has to be connected to a Paymill client to make a payment.', 401);
+			throw new LaraMillException('The user has to be connected to a Paymill client to make a payment.', 401);
 		}
 		
 		$subscription = new \Paymill\Models\Request\Subscription();

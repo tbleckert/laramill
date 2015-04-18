@@ -17,7 +17,7 @@ LaraMill is a Laravel package that provides a powerful bridge to Paymill that ma
 
 Simply add LaraMill to your `composer.json`:
 
-	"tbleckert/laramill": "1.0-beta.1"
+	"tbleckert/laramill": "1.0-beta.2"
 	
 ...and run `composer install tbleckert/laramill`. This will install the package. You also have to add `'Tbleckert\LaraMill\LaraMillServiceProvider'` to your providers array.
 

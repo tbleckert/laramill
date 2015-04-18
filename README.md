@@ -1,5 +1,7 @@
-LaraMill
+LaraMill (former Billing)
 =======
+
+__Note__: Special thanks to @hostianer for the new name!
 
 LaraMill is a Laravel package that provides a powerful bridge to Paymill that makes it easy to handle payments and subscriptions
 

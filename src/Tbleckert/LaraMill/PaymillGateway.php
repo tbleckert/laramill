@@ -9,7 +9,7 @@ class PaymillGateway {
 	{
 		$this->billing = $billing;
 		$this->paymillObject = $paymillObject;
-		$this->request = new \Paymill\Request(\Config::get('billing::private'));
+		$this->request = new \Paymill\Request(\Config::get('laramill::private'));
 	}
 	
 	public function create($token = null)
@@ -17,7 +17,7 @@ class PaymillGateway {
 		$action     = $this->billing->currentAction;
 		
 		if ($action == 'client' AND $this->billing->client_id) {
-			throw new BillingException('The user is already connected to a Paymill client.', 403);
+			throw new LaraMillException('The user is already connected to a Paymill client.', 403);
 		}
 		
 		$response   = $this->request->create($this->paymillObject);
@@ -35,7 +35,7 @@ class PaymillGateway {
 		if ($action == 'subscription' AND $this->billing->subscription_id) {
 			$this->paymillObject->setId($this->billing->subscription_id);
 		} elseif ($action == 'subscription' AND !$this->billing->subscription_id) {
-			throw new BillingException('The user is not subscribed to a subscription.', 403);
+			throw new LaraMillException('The user is not subscribed to a subscription.', 403);
 		}
 		
 		if (!$this->paymillObject->getId()) {
@@ -52,15 +52,15 @@ class PaymillGateway {
 		$action = $this->billing->currentAction;
 		
 		if ($action != 'subscription') {
-			throw new BillingException('This method is not allowed for the provided action.', 405);
+			throw new LaraMillException('This method is not allowed for the provided action.', 405);
 		}
 		
 		if (!$this->billing->subscription_id) {
-			throw new BillingException('The user is not subscribed to a subscription.', 403);
+			throw new LaraMillException('The user is not subscribed to a subscription.', 403);
 		}
 		
 		if (!$this->paymillObject->getOffer()) {
-			throw new BillingException('No offer set to swap to.', 428);
+			throw new LaraMillException('No offer set to swap to.', 428);
 		}
 		
 		$this->paymillObject->setId($this->billing->subscription_id);
@@ -74,11 +74,11 @@ class PaymillGateway {
 		$action = $this->billing->currentAction;
 		
 		if ($action != 'subscription') {
-			throw new BillingException('This method is not allowed for the provided action.', 405);
+			throw new LaraMillException('This method is not allowed for the provided action.', 405);
 		}
 		
 		if (!$this->billing->subscription_id) {
-			throw new BillingException('The user is not subscribed to a subscription.', 403);
+			throw new LaraMillException('The user is not subscribed to a subscription.', 403);
 		}
 		
 		$this->paymillObject->setId($this->billing->subscription_id)->setPause(true);
@@ -92,11 +92,11 @@ class PaymillGateway {
 		$action = $this->billing->currentAction;
 		
 		if ($action != 'subscription') {
-			throw new BillingException('This method is not allowed for the provided action.', 405);
+			throw new LaraMillException('This method is not allowed for the provided action.', 405);
 		}
 		
 		if (!$this->billing->subscription_id) {
-			throw new BillingException('The user is not subscribed to a subscription.', 403);
+			throw new LaraMillException('The user is not subscribed to a subscription.', 403);
 		}
 		
 		$this->paymillObject->setId($this->billing->subscription_id)->setPause(false);
@@ -130,11 +130,11 @@ class PaymillGateway {
 		$action = $this->billing->currentAction;
 		
 		if ($action != 'subscription') {
-			throw new BillingException('This method is not allowed for the provided action.', 405);
+			throw new LaraMillException('This method is not allowed for the provided action.', 405);
 		}
 		
 		if (!$this->billing->subscription_id) {
-			throw new BillingException('The user is not subscribed to a subscription.', 403);
+			throw new LaraMillException('The user is not subscribed to a subscription.', 403);
 		}
 		
 		$this->paymillObject->setId($this->billing->subscription_id)->setRemove(false);
@@ -150,7 +150,7 @@ class PaymillGateway {
 		if ($action == 'subscription' AND $this->billing->subscription_id) {
 			$this->paymillObject->setId($this->billing->subscription_id)->setRemove(true);
 		} elseif ($action == 'subscription' AND !$this->billing->subscription_id) {
-			throw new BillingException('The user is not subscribed to a subscription.', 403);
+			throw new LaraMillException('The user is not subscribed to a subscription.', 403);
 		}
 	
 		$response = $this->request->delete($this->paymillObject);

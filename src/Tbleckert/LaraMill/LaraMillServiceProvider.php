@@ -30,7 +30,7 @@ class LaraMillServiceProvider extends ServiceProvider {
 	{
 		$this->app['laramill'] = $this->app->share(function ($app)
 		{
-			return new Billing;
+			return new LaraMill;
 		});
 	}
 

@@ -16,6 +16,24 @@ LaraMill is a Laravel package that provides a powerful bridge to Paymill that ma
 Simply add LaraMill to your `composer.json`:
 
 	"tbleckert/laramill": "1.0-beta.1"
+	
+...and run `composer install tbleckert/laramill`. This will install the package. You also have to add `'Tbleckert\LaraMill\LaraMillServiceProvider'` to your providers array.
+
+### Update users table
+LaraMill saves and uses two database columns, these are: subscription_id (string/varchar) and client_id (string/varchar). This means you have to manually make a migration that adds these columns to your user table.
+
+### Setup model
+To use LaraMill you have to update your User model to something like this:
+
+    use Tbleckert\LaraMill\LaraMillInterface;
+    use Tbleckert\LaraMill\LaraMillTrait;
+
+    class User extends Eloquent implements LaraMillInterface {
+
+	    use LaraMillTrait;
+
+    }
+    
 
 ## Configure
 
